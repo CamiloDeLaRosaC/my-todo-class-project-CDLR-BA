@@ -1,5 +1,21 @@
 import { useContext, useState } from "react";
 import { AuthenticatorContext } from "../../contexts/Authenticator";
+import * as Sentry from '@sentry/react';
+
+function ErrorButton() {
+  return (
+    <button
+      type="button"
+      style={{ backgroundColor: 'blue', color: 'white', padding: '5px' }}
+      onClick={() => {
+        Sentry.captureException(new Error('Prueba de error enviada a Sentry'));
+        alert("Error enviado a Sentry correctamente");
+      }}
+    >
+      Probar Sentry Manualmente
+    </button>
+  );
+}
 
 const Login = () => {
     const { login } = useContext(AuthenticatorContext);
@@ -24,6 +40,11 @@ const Login = () => {
                 <div><button type="submit">Log in</button></div>
             </form>
             <div>{message}</div>
+
+            <div style={{ marginTop: '20px', borderTop: '1px solid #ccc', paddingTop: '10px' }}>
+                <p style={{ fontSize: '0.8rem', color: '#666' }}>Prueba Sentry</p>
+                <ErrorButton />
+            </div>
         </div>
     )
 }
