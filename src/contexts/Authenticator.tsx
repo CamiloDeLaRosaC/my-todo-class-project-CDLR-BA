@@ -1,71 +1,50 @@
-import { createContext, useEffect, useState }from "react";
-import axios from "axios";
-import config from "../config";
+import { createContext, useEffect, useState } from "react";
+import { User, onAuthStateChanged, signInWithEmailAndPassword, signOut } from "firebase/auth";
+import { auth } from "../firebase";
 
 export const AuthenticatorContext = createContext({
     isAuthenticated: false,
-    login: ({ email, password }: { email: string, password: string }) => { },
-    logout: () => { },
+    user: null as User | null,
+    login: ({ email, password }: { email: string, password: string }) => Promise.resolve(),
+    logout: () => Promise.resolve(),
     loading: true
 });
 
-
 export const AuthenticatorProvider = ({ children }: { children: React.ReactNode }) => {
     const [loading, setLoading] = useState(true);
+    const [user, setUser] = useState<User | null>(null);
     const [isAuthenticated, setIsAuthenticated] = useState(false);
 
-    const login = ({ email, password }: { email: string, password: string }) => {
-        axios.post(config.API_AUTHENTICATION_URL + "/login", {
-            email,
-            password
-        })
-        .then(response => {
-            setIsAuthenticated(true);
-            localStorage.setItem("token", response.data.accessToken);
-        })
-        .catch(error => {
-            console.error(error);
-        });
+    const login = async ({ email, password }: { email: string, password: string }) => {
+        try {
+            await signInWithEmailAndPassword(auth, email, password);
+        } catch (error: any) {
+            console.error("Error login:", error);
+            alert("Error al iniciar sesión: " + error.message);
+            throw error;
+        }
     };
 
     const logout = async () => {
-        setIsAuthenticated(false);
-        await axios.post(config.API_AUTHENTICATION_URL + '/logout', null, {
-            headers: { Authorization: `Bearer ${localStorage.getItem("token")}` }
-        });
-        localStorage.removeItem("token");
+        try {
+            await signOut(auth);
+        } catch (error) {
+            console.error("Error logout:", error);
+        }
     }
 
     useEffect(() => {
-        const checkAuth = async () => {
-            const token = localStorage.getItem("token");
-            if (!token) {
-                setIsAuthenticated(false);
-                setLoading(false);
-                return;
-            }
-
-            try {
-                const res = await axios.get(config.API_AUTHENTICATION_URL + "/verify-token", {
-                    headers: { Authorization: `Bearer ${token}` },
-                    validateStatus: (status) => status < 500
-                });
-                
-                setIsAuthenticated(res.status === 200);
-            } catch (error) {
-                console.error('Error verifying token:', error);
-                setIsAuthenticated(false);
-            } finally {
-                setLoading(false);
-            }
-        };
-        checkAuth();
+        const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+            setUser(currentUser);
+            setIsAuthenticated(!!currentUser);
+            setLoading(false);
+        });
+        return () => unsubscribe();
     }, []);
     
     return (
-        <AuthenticatorContext.Provider value={{ isAuthenticated, login, logout, loading }}>
+        <AuthenticatorContext.Provider value={{ isAuthenticated, user, login, logout, loading }}>
             {children}
         </AuthenticatorContext.Provider>
     );
 };
-
