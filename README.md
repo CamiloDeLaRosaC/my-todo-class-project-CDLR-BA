@@ -62,3 +62,20 @@ Aqui se ve el boton azul de "probar sentry manualmente" que es el boton de prueb
 
 En esta imagen se ven varios errores que mostraba en su desarrollo y ejecución
 ![Descripción de la imagen](imagenes/dsllo_frontend_p1_2.jpg)
+
+
+## 2. Implementar el deploy automático en Firebase a través de una plataforma de CI.
+Deploy automatico
+Para mayor uso de la herramienta usamos firebase database
+![Descripción de la imagen](imagenes/dsllo_frontend_p2_1.jpg)
+
+Imagen de Prueba:
+![Descripción de la imagen](imagenes/dsllo_frontend_p2_2.jpg)
+
+Autentificacion con firebase
+![Descripción de la imagen](imagenes/dsllo_frontend_p2_3.jpg)
+
+
+## 3. Capturar las analíticas de la app con Google Analytics
+
+![Descripción de la imagen](imagenes/dsllo_frontend_p3_1.jpg)
