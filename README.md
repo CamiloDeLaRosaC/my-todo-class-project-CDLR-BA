@@ -57,5 +57,8 @@ export default tseslint.config([
 ```
 
 ## 1. Implementar una herramienta de observabilidad para captura de errores
+Aqui se ve el boton azul de "probar sentry manualmente" que es el boton de pruebas que nos manda el error
+![Descripción de la imagen](imagenes/dsllo_frontend_p1_1.jpg)
 
-![Descripción de la imagen](imagenes/dsllo_frontend_punto1_1.jpg)
+En esta imagen se ven varios errores que mostraba en su desarrollo y ejecución
+![Descripción de la imagen](imagenes/dsllo_frontend_p1_2.jpg)
