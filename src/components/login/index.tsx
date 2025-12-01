@@ -26,7 +26,7 @@ const Login = () => {
     const handleClick = (e: React.FormEvent) => {
         e.preventDefault();
         if (email === "" || password === "") {
-            setMessage("Email and password are required");
+            setMessage("Email & password are required");
             return;
         }
         login({ email: email, password: password });
