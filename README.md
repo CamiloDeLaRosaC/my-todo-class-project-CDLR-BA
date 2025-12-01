@@ -66,4 +66,8 @@ export default tseslint.config([
     },
   },
 ])
+
+1. Implementar una herramienta de observabilidad para captura de errores.
+
+
 ```
