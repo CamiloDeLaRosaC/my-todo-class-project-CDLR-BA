@@ -68,6 +68,6 @@ export default tseslint.config([
 ])
 
 1. Implementar una herramienta de observabilidad para captura de errores.
-![Descripción de la imagen](imagenes\dsllo_frontend_punto1_1.jfif)
+![Descripción de la imagen](imagenes/dsllo_frontend_punto1_1.jfif)
 
 ```
